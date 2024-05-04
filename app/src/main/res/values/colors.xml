@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#b8ae9e</color>
+    <color name="purple_500">#A67D3D</color>
+    <color name="purple_700">#b8ae9e</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="blue">#2B2297</color>
+
+    <color name="backGround">#FFF1DB</color>
+    <color name="backGroundInput">#A67D3D</color>
+    <color name="cardHud">#FFE5BD</color>
+</resources>
