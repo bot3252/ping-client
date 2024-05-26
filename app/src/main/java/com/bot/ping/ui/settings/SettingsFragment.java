@@ -7,8 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bot.ping.R;
 import com.bot.ping.databinding.FragmentSettingsBinding;
 public class SettingsFragment extends Fragment {
 
@@ -24,7 +28,6 @@ public class SettingsFragment extends Fragment {
 
         return root;
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

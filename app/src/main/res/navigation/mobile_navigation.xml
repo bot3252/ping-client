@@ -13,12 +13,12 @@
     <fragment
         android:id="@+id/nav_create_group"
         android:name="com.bot.ping.ui.create_group.CreateGroupFragment"
-        android:label="@string/settings"
+        android:label="@string/create_group"
         tools:layout="@layout/fragment_create_group" />
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.bot.ping.ui.settings.SettingsFragment"
-        android:label="@string/create_group"
+        android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 
 </navigation>

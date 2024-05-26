@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bot.ping.R;
-import com.bot.ping.manager.LoginManager;
+import com.bot.ping.manager.DownloadManager;
 import com.bot.ping.model.ReCAPTCHA;
 
 import org.json.JSONException;
@@ -24,7 +24,7 @@ public class RegisterActivity extends Activity {
     EditText emailTextView, nameTextView,passwordTextView;
     Button loginButton, registerButton, forgetPasswordButton;
     CheckBox captchaCheckBox;
-    LoginManager loginManager;
+    DownloadManager downloadManager;
     ReCAPTCHA reCAPTCHA;
     Context context;
     @Override
@@ -33,7 +33,7 @@ public class RegisterActivity extends Activity {
         setContentView(R.layout.activity_register);
         context = this;
         reCAPTCHA = new ReCAPTCHA(this);
-        loginManager= new LoginManager(this);
+        downloadManager = new DownloadManager(this);
         init();
     }
 
@@ -54,16 +54,32 @@ public class RegisterActivity extends Activity {
     View.OnClickListener registerListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            try {
-                if(captchaCheckBox.isChecked()) {
-//                    if (isValidEmail(emailTextView.getText().toString())){
-                    loginManager.register(emailTextView.getText().toString(), nameTextView.getText().toString(),passwordTextView.getText().toString());
-//                    }
-                } else {
-                    Toast.makeText(context, "Пройдите капчу", Toast.LENGTH_LONG).show();
+            if(captchaCheckBox.isChecked()) {
+                if (isValidEmail(emailTextView.getText().toString())){
+                    new Thread(new Runnable() {
+                        public void run() {
+                            String name = nameTextView.getText().toString();
+                            String email = emailTextView.getText().toString();
+                            String password = passwordTextView.getText().toString();
+                            try {
+                                if(downloadManager.register(email, name, password)){
+                                    Intent intent = new Intent(context.getApplicationContext(), CheckCodeActivity.class);
+                                    intent.putExtra("name", name);
+                                    intent.putExtra("email", email);
+                                    intent.putExtra("password", password);
+                                    context.startActivity(intent);
+                                    overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }).start();
                 }
-            } catch (IOException | JSONException e) {
-                throw new RuntimeException(e);
+            } else {
+                Toast.makeText(context, "Пройдите капчу", Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -72,6 +88,7 @@ public class RegisterActivity extends Activity {
         public void onClick(View view) {
             Intent intent = new Intent(context, LoginActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_left, R.anim.anim_slide_out_right);
         }
     };
 
@@ -80,6 +97,7 @@ public class RegisterActivity extends Activity {
         public void onClick(View view) {
             Intent intent = new Intent(getApplicationContext(), ForgetPasswordActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
         }
     };
 

@@ -4,16 +4,21 @@
     <string name="email">Почта</string>
     <string name="name">Имя</string>
     <string name="password">Пароль</string>
+    <string name="nickname">Никнейм</string>
+    
+    <string name="notifications">Уведомления</string>
+    
     <string name="login">Войти</string>
     <string name="register"><u>Зарегистрироваться</u></string>
     <string name="forget_password"><u>Забыл пароль</u></string>
     <string name="captcha"><u>Я человек</u></string>
     <string name="send_code"><u>Отправить код</u></string>
     <string name="time_is_over"><u>Время вышло</u></string>
+    <string name="description">Описание</string>
 
     <string name="avatar">Аватар</string>
     <string name="choose_avatar">Выбери свой аватар</string>
-    <string name="choose">Выбрать</string>
+    <string name="choose_in_gallery">Выбрать из галерей</string>
     <string name="save">Сохранить</string>
 
     <string name="message">Сообщение</string>

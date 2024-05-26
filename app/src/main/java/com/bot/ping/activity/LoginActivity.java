@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bot.ping.R;
-import com.bot.ping.manager.LoginManager;
+import com.bot.ping.manager.DownloadManager;
 import com.bot.ping.model.ReCAPTCHA;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton, registerButton, forgetPasswordButton;
     ReCAPTCHA reCAPTCHA;
     Context context;
-    LoginManager loginManager;
+    DownloadManager downloadManager;
     CheckBox captchaCheckBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         context = this;
 
-        loginManager= new LoginManager(this);
+        downloadManager = new DownloadManager(this);
         reCAPTCHA = new ReCAPTCHA(this);
 
         init();
@@ -58,16 +58,23 @@ public class LoginActivity extends AppCompatActivity {
     View.OnClickListener loginListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            try {
-                if(captchaCheckBox.isChecked()) {
-                    if (isValidEmail(emailTextView.getText().toString())){
-                        loginManager.login(emailTextView.getText().toString(), passwordTextView.getText().toString(), new Intent(getApplicationContext(), MainActivity.class));
-                    }
-                } else {
-                    Toast.makeText(context, "Пройдите капчу", Toast.LENGTH_LONG).show();
+            if(captchaCheckBox.isChecked()) {
+                if (isValidEmail(emailTextView.getText().toString())){
+                    new Thread(new Runnable() {
+                        public void run() {
+                            try {
+                                downloadManager.login(emailTextView.getText().toString(), passwordTextView.getText().toString());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
+                        }
+                    }).start();
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } else {
+                Toast.makeText(context, "Пройдите капчу", Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -77,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = new Intent(context.getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
         }
     };
 
@@ -85,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent = new Intent(getApplicationContext(), ForgetPasswordActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
         }
     };
 
