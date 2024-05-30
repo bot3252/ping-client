@@ -6,25 +6,29 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
+import android.app.Fragment;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.bot.ping.R;
 import com.bot.ping.manager.DataManager;
 import com.bot.ping.manager.DownloadManager;
 import com.bot.ping.manager.PermissionManager;
 import com.bot.ping.model.User;
-import com.bot.ping.ui.ContactAdapter;
-import com.bot.ping.ui.UiManagerActivity;
+import com.bot.ping.ui.UIManagerActivity;
+import com.bot.ping.ui.create_group.CreateGroupFragment;
+import com.bot.ping.ui.message.MessageMenuFragment;
+import com.bot.ping.ui.settings.SettingsFragment;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    UiManagerActivity uiManagerActivity;
+public class MainActivity extends AppCompatActivity{
+    UIManagerActivity uiManagerActivity;
     DataManager dataManager;
     User myUser;
     Context context;
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         init();
         checkLogin();
-        uiManagerActivity=new UiManagerActivity(this,myUser);
+        uiManagerActivity=new UIManagerActivity(this,myUser);
         setAvatar();
         checkContacts();
     }
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-                //                while (response)
             }
         }).start();
     }
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         arguments = getIntent().getExtras();
         downloadManager = new DownloadManager(context);
         new PermissionManager(this);
+        getSupportFragmentManager().findFragmentById(R.id.nav_message_menu);
     }
 
     void setAvatar(){
@@ -111,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return uiManagerActivity.onCreateOptionsMenu(menu);
     }
@@ -119,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         return uiManagerActivity.onSupportNavigateUp();
     }
-
-
     public void exit_account(MenuItem item) {
         dataManager.deleteData();
         Intent intent = new Intent(this, LoginActivity.class);

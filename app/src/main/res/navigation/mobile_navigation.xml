@@ -6,6 +6,7 @@
     app:startDestination="@+id/nav_message_menu">
 
     <fragment
+        android:tag="message_tag"
         android:id="@+id/nav_message_menu"
         android:name="com.bot.ping.ui.message.MessageMenuFragment"
         android:label="@string/message"

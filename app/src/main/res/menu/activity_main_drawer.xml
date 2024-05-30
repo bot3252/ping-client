@@ -5,6 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:tag="message_tag"
             android:id="@+id/nav_message_menu"
             android:icon="@drawable/insipid_avatar"
             android:title="@string/message" />
@@ -17,10 +18,13 @@
             android:icon="@drawable/settings"
             android:title="@string/settings" />
     </group>
-    <group>
-        <item
-            android:id="@+id/exit"
-            android:onClick="exit_account"
-            android:title="@string/exit" />
-    </group>
+    <item android:title="@string/account">
+        <menu>
+            <group android:checkableBehavior="single"/>
+            <item
+                android:id="@+id/exit"
+                android:onClick="exit_account"
+                android:title="@string/exit" />
+        </menu>
+    </item>
 </menu>

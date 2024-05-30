@@ -16,6 +16,7 @@
     <string name="time_is_over"><u>Время вышло</u></string>
     <string name="description">Описание</string>
 
+    <string name="account">Аккаунт</string>
     <string name="avatar">Аватар</string>
     <string name="choose_avatar">Выбери свой аватар</string>
     <string name="choose_in_gallery">Выбрать из галерей</string>

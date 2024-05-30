@@ -1,9 +1,11 @@
 package com.bot.ping.model;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-public class User {
+public class User implements Parcelable {
     private String uuid;
     private String name;
     private String email;
@@ -16,6 +18,27 @@ public class User {
         this.setUuid(uuid);
         this.setName(name);
     }
+
+    protected User(Parcel in) {
+        uuid = in.readString();
+        name = in.readString();
+        email = in.readString();
+        avatar = in.readParcelable(Bitmap.class.getClassLoader());
+        password = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     @NonNull
     public String getUuid() { return uuid;}
     public void setUuid(@NonNull String uuid) {
@@ -42,5 +65,19 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeString(uuid);
+        parcel.writeString(name);
+        parcel.writeString(email);
+        parcel.writeParcelable(avatar, i);
+        parcel.writeString(password);
     }
 }
