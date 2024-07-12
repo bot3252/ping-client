@@ -1,5 +1,6 @@
 package com.bot.ping.ui.message;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bot.ping.R;
+import com.bot.ping.activity.ChatActivity;
 import com.bot.ping.databinding.FragmentMessageMenuBinding;
 import com.bot.ping.model.User;
-import com.bot.ping.ui.ContactAdapter;
+import com.bot.ping.ui.adapter.ContactAdapter;
 import com.bot.ping.ui.RecyclerItemClickListener;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class MessageMenuFragment extends Fragment {
     Bundle arguments;
     View root;
     public RecyclerView recyclerView;
-    public ArrayList<User> allContacts = new ArrayList<User>();
+    public ArrayList<User> allContacts;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         this.setArguments(new Bundle());
@@ -35,26 +37,28 @@ public class MessageMenuFragment extends Fragment {
 
         arguments = getArguments();
         root = binding.getRoot();
-
-        if(allContacts.size()!=0){
-            setContact();
-            recyclerView.addOnItemTouchListener(
-                    new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                        @Override public void onItemClick(View view, int position) {
-                            int i=0;
-                        }
-
-                        @Override public void onLongItemClick(View view, int position) {
-                            int i=0;
-                        }
-                    })
-            );
+        recyclerView = root.findViewById(R.id.list);
+        recyclerView.addOnItemTouchListener(recyclerItemClickListener);
+        if(allContacts!=null){
+            if(!allContacts.isEmpty()) {
+                setAdapter();
+            }
         }
         return root;
     }
+    RecyclerItemClickListener recyclerItemClickListener = new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+        @Override public void onItemClick(View view, int position) {
+            Intent intent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+            intent.putExtra("uuid",allContacts.get(position).getUuid());
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
+        }
 
-    public void setContact() {
-        recyclerView = root.findViewById(R.id.list);
+        @Override public void onLongItemClick(View view, int position) {
+
+        }
+    });
+    public void setAdapter() {
         ContactAdapter adapter = new ContactAdapter(getActivity(), allContacts);
         recyclerView.setAdapter(adapter);
     }

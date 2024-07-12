@@ -7,12 +7,14 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
+        public void onItemClick(View view, int position) throws IOException;
 
         public void onLongItemClick(View view, int position);
     }
@@ -40,7 +42,11 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
     @Override public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
         View childView = view.findChildViewUnder(e.getX(), e.getY());
         if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
+            try {
+                mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             return true;
         }
         return false;

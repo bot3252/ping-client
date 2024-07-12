@@ -67,6 +67,7 @@
         android:background="@drawable/edit_text"
         android:hint="@string/password"
         android:padding="10dp"
+        android:password="true"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"

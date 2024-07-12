@@ -3,14 +3,16 @@ package com.bot.ping.manager;
 import static android.content.Context.MODE_PRIVATE;
 
 import static org.chromium.base.ThreadUtils.runOnUiThread;
+import static org.chromium.base.ThreadUtils.setWillOverrideUiThread;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.bot.ping.model.User;
+import com.bot.ping.model.MyUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,79 +21,76 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.URL;
 import java.util.Objects;
 
 public class DataManager{
     Context context;
     SharedPreferences sharedPreferencesUserData;
-    OutputStream outputStream;
 
     public DataManager(Context context){
         this.context = context;
         sharedPreferencesUserData = context.getSharedPreferences("AccountData", MODE_PRIVATE);
     }
 
-    public void saveUser(User user) {
+    public void saveUser(MyUser myUser) {
         SharedPreferences.Editor prefEditor = sharedPreferencesUserData.edit();
-        prefEditor.putString("name", user.getName());
-        prefEditor.putString("email", user.getEmail());
-        prefEditor.putString("uuid", user.getUuid());
-        prefEditor.putString("password", user.getPassword());
+        if(!myUser.getUuid().equals("null")){
+            prefEditor.putString("uuid", myUser.getUuid());
+        }
+        if(!Objects.equals(myUser.getName(), "null")){
+            prefEditor.putString("name", myUser.getName());
+        }
+        if(!Objects.equals(myUser.getNickname(), "null")){
+            prefEditor.putString("nickname", myUser.getEmail());
+        }
+        if(!Objects.equals(myUser.getEmail(), "null")){
+            prefEditor.putString("email", myUser.getEmail());
+        }
+        if(!Objects.equals(myUser.getDescription(), "null")){
+            prefEditor.putString("description", myUser.getNickname());
+        }
+        if(!Objects.equals(myUser.getPassword(), "null")){
+            prefEditor.putString("password", myUser.getPassword());
+        }
         prefEditor.apply();
     }
 
-    public User getUser() {
+    public void saveToken(String token){
         SharedPreferences.Editor prefEditor = sharedPreferencesUserData.edit();
-        User user = new User();
+        prefEditor.putString("firebaseToken", token);
+        prefEditor.apply();
+    }
+
+    public String getToken(){
+        sharedPreferencesUserData = context.getSharedPreferences("AccountData", MODE_PRIVATE);
+        return sharedPreferencesUserData.getString("firebaseToken",null);
+    }
+
+    public MyUser getMyUser() {
+        sharedPreferencesUserData = context.getSharedPreferences("AccountData", MODE_PRIVATE);
+
+        MyUser user = new MyUser();
+
+        user.setUuid(sharedPreferencesUserData.getString("uuid", null));
         user.setName(sharedPreferencesUserData.getString("name",null));
+        user.setNickname(sharedPreferencesUserData.getString("nickname",null));
         user.setEmail(sharedPreferencesUserData.getString("email",null));
-        user.setUuid(Objects.requireNonNull(sharedPreferencesUserData.getString("uuid", null)));
+        user.setDescription(sharedPreferencesUserData.getString("description",null));
         user.setPassword(sharedPreferencesUserData.getString("password",null));
+
+        try {
+            user.setAvatar(getImage(user.getUuid(),context));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return user;
     }
 
     public void deleteData(){
-        SharedPreferences settings = context.getSharedPreferences("PreferencesName", Context.MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences("AccountData", Context.MODE_PRIVATE);
         settings.edit().clear().commit();
     }
-
-//    public void saveImage(Bitmap bitmap) {
-//
-//        File dir = new File(Environment.getExternalStorageDirectory(),"SaveImage");
-//
-//        if (!dir.exists()){
-//
-//            dir.mkdir();
-//
-//        }
-//
-//        File file = new File(dir,System.currentTimeMillis()+".jpg");
-//        try {
-//            outputStream = new FileOutputStream(file);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        runOnUiThread (new Thread(new Runnable() {
-//            public void run() {
-//                //bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
-//                try {
-//                    outputStream.flush();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//                    outputStream.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }));
-//
-//    }
 
     public void saveString(){
         File dir = new File(context.getFilesDir(),"");
@@ -147,25 +146,26 @@ public class DataManager{
         }
     }
 
-    public void saveImage(Bitmap bitmap, String name){
+    public static void saveImage(Bitmap bitmap, String name, Context context){
         FileOutputStream fOut= null;
+        Bitmap localBitmap = bitmap;
         try {
-            fOut = new FileOutputStream(context.getFilesDir()+"/"+name);
+            fOut = new FileOutputStream(context.getFilesDir()+"/"+name+".jpg");
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,fOut);
+        localBitmap.compress(Bitmap.CompressFormat.JPEG,100,fOut);;
         try {
             fOut.flush();
             fOut.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        bitmap.recycle();
+      //  localBitmap.recycle();
     }
 
-    public Bitmap getImage(String name) throws IOException {
-        File imgFile = new  File(context.getFilesDir() +"/"+ name);
+    public static Bitmap getImage(String name, Context context) throws IOException {
+        File imgFile = new  File(context.getFilesDir() +"/"+ name+".jpg");
 
         if(imgFile.exists()){
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -180,5 +180,24 @@ public class DataManager{
         byte[] byteArray = stream.toByteArray();
         bitmap.recycle();
         return byteArray;
+    }
+
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        return bitmap;
     }
 }

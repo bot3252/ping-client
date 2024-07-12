@@ -12,15 +12,19 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bot.ping.R;
 import com.bot.ping.manager.DownloadManager;
+import com.bot.ping.model.MyUser;
 import com.bot.ping.model.ReCAPTCHA;
+import com.bot.ping.model.User;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 
-public class RegisterActivity extends Activity {
+public class RegisterActivity  extends AppCompatActivity {
     EditText emailTextView, nameTextView,passwordTextView;
     Button loginButton, registerButton, forgetPasswordButton;
     CheckBox captchaCheckBox;
@@ -61,14 +65,23 @@ public class RegisterActivity extends Activity {
                             String name = nameTextView.getText().toString();
                             String email = emailTextView.getText().toString();
                             String password = passwordTextView.getText().toString();
+
+                            MyUser user = new MyUser();
+                            user.setName(name);
+                            user.setEmail(email);
+                            user.setPassword(password);
+
                             try {
                                 if(downloadManager.register(email, name, password)){
                                     Intent intent = new Intent(context.getApplicationContext(), CheckCodeActivity.class);
-                                    intent.putExtra("name", name);
-                                    intent.putExtra("email", email);
-                                    intent.putExtra("password", password);
+                                    intent.putExtra("myUser",user);
                                     context.startActivity(intent);
                                     overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
+                                }else {
+                                    Toast.makeText(context, "неверный логин или пароль", Toast.LENGTH_SHORT).show();
+                                    nameTextView.setText("");
+                                    emailTextView.setText("");
+                                    passwordTextView.setText("");
                                 }
                             } catch (IOException e) {
                                 throw new RuntimeException(e);

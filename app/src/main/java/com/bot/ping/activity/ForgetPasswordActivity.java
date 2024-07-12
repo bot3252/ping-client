@@ -73,4 +73,10 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        overridePendingTransition(R.anim.anim_slide_left, R.anim.anim_slide_out_right);
+        super.onDestroy();
+    }
 }

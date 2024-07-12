@@ -14,7 +14,9 @@
     <string name="captcha"><u>Я человек</u></string>
     <string name="send_code"><u>Отправить код</u></string>
     <string name="time_is_over"><u>Время вышло</u></string>
-    <string name="description">Описание</string>
+    <string name="description">Описание:</string>
+    <string name="about_me">о себе</string>
+
 
     <string name="account">Аккаунт</string>
     <string name="avatar">Аватар</string>
@@ -22,10 +24,14 @@
     <string name="choose_in_gallery">Выбрать из галерей</string>
     <string name="save">Сохранить</string>
 
-    <string name="message">Сообщение</string>
+    <string name="message">Сообщения</string>
     <string name="create_group">Создать группу</string>
-    <string name="settings">Настройка</string>
+    <string name="settings">Настройки</string>
     <string name="next">Далее</string>
     <string name="check">проверить</string>
     <string name="exit"><u>Выйти из аккаунта</u></string>
+    <string name="search">поиск...\n</string>
+    <string name="descriptionSetAvatar">Данный автар будет отображаться в вашем профеле\n</string>
+    <string name="chat">чат</string>
+    <string name="profile">Профиль</string>
 </resources>

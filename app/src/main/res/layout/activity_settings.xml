@@ -11,16 +11,15 @@
         android:id="@+id/textViewHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="64dp"
         android:gravity="center"
         android:text="Профиль"
         android:textColor="@color/black"
         android:textSize="27sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"  />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewSubtitleName"
@@ -37,14 +36,14 @@
 
     <EditText
         android:id="@+id/editTextName"
-        android:layout_width="367dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:background="@color/white"
         android:ems="10"
         android:inputType="text"
         android:paddingLeft="14dp"
-        android:text="Name"
+        android:hint="@string/name"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,11 +62,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView
         android:id="@+id/editTextDescription"
-        android:layout_width="359dp"
-        android:layout_height="147dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="8dp"
         android:background="@color/white"
         android:ems="10"
         android:gravity="start"
@@ -75,18 +74,47 @@
         android:textStyle="italic"
         android:inputType="text|textMultiLine"
         android:paddingLeft="14dp"
-        android:text="@string/description"
+        android:hint="@string/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSubtitleDescription" />
 
+
+    <TextView
+        android:id="@+id/textViewSubtitleNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/nickname"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+
+    <EditText
+        android:id="@+id/editTextNickName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:inputType="text"
+        android:paddingLeft="14dp"
+        android:hint="@string/nickname"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSubtitleNickName"  />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescription"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/editTextNickName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

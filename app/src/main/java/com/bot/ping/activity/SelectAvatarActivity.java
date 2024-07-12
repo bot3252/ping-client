@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -17,14 +18,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bot.ping.R;
+import com.bot.ping.manager.DataManager;
 import com.bot.ping.manager.DownloadManager;
+import com.bot.ping.model.MyUser;
+import com.bot.ping.model.User;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class SelectAvatarActivity extends Activity {
+public class SelectAvatarActivity extends AppCompatActivity {
     ImageView imageViewAvatar;
     Button buttonSelectAvatarFromGallery, buttonNext;
     ImageButton buttonSelectAvatar1,buttonSelectAvatar2, buttonSelectAvatar3,buttonSelectAvatar4;
@@ -33,7 +39,11 @@ public class SelectAvatarActivity extends Activity {
     Uri uriAvatar;
     Dialog dialog;
     Activity activity;
+    MyUser myUser;
+    Bundle arguments;
+    Context context;
     int SELECT_AVATAR = 200;
+    DataManager dataManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +52,15 @@ public class SelectAvatarActivity extends Activity {
     }
 
     private void init() {
+        context=this;
         imageViewAvatar = findViewById(R.id.imageAvatar);
+        dataManager = new DataManager(this);
         activity = this;
+
+        arguments = getIntent().getExtras();
+        myUser = dataManager.getMyUser();
+
+        bitmapAvatar= DataManager.drawableToBitmap(imageViewAvatar.getDrawable());
 
         buttonSelectAvatarFromGallery = findViewById(R.id.buttonSelectAvatarFromGallery);
         buttonNext = findViewById(R.id.buttonNext);
@@ -57,24 +74,28 @@ public class SelectAvatarActivity extends Activity {
             @Override
             public void onClick(View v) {
                 imageViewAvatar.setImageResource(R.mipmap.avatar1);
+                bitmapAvatar= DataManager.drawableToBitmap(imageViewAvatar.getDrawable());
             }
         });
         buttonSelectAvatar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageViewAvatar.setImageResource(R.mipmap.avatar2);
+                bitmapAvatar= DataManager.drawableToBitmap(imageViewAvatar.getDrawable());
             }
         });
         buttonSelectAvatar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageViewAvatar.setImageResource(R.mipmap.avatar3);
+                bitmapAvatar= DataManager.drawableToBitmap(imageViewAvatar.getDrawable());
             }
         });
         buttonSelectAvatar4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageViewAvatar.setImageResource(R.mipmap.avatar4);
+                bitmapAvatar= DataManager.drawableToBitmap(imageViewAvatar.getDrawable());
             }
         });
         buttonSelectAvatarFromGallery.setOnClickListener(onClickSelectAvatarFromGallery);
@@ -94,7 +115,7 @@ public class SelectAvatarActivity extends Activity {
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        downloadManager.sendAvatar(bitmapAvatar, "", "", "");
+                        downloadManager.sendAvatar(bitmapAvatar, myUser.getUuid(),myUser.getPassword());
                         Intent intent = new Intent(activity, MainActivity.class);
                         activity.startActivity(intent);
                     } catch (IOException e) {

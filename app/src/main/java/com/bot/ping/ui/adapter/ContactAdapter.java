@@ -1,4 +1,4 @@
-package com.bot.ping.ui;
+package com.bot.ping.ui.adapter;
 
 
 import android.content.Context;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder>{
     private final LayoutInflater inflater;
-    private final List<User> contacts;
+    public final List<User> contacts;
 
     public ContactAdapter(Context context, ArrayList<User> contacts) {
         this.contacts = contacts;
@@ -36,6 +36,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         User user = contacts.get(position);
         holder.avatarView.setImageBitmap(user.getAvatar());
         holder.nameView.setText(user.getName());
+        holder.nickName.setText(user.getNickname());
         holder.emailView.setText(user.getEmail());
     }
 
@@ -46,12 +47,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final ImageView avatarView;
-        final TextView nameView, emailView;
+        final TextView nameView, emailView, nickName;
         ViewHolder(View view){
             super(view);
             avatarView = view.findViewById(R.id.avatar);
             nameView = view.findViewById(R.id.name);
             emailView = view.findViewById(R.id.email);
+            nickName = view.findViewById(R.id.nickName);
         }
+    }
+
+    public List<User> getUsers(){
+        return contacts;
     }
 }

@@ -5,44 +5,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-public class User implements Parcelable {
+public class User{
     private String uuid;
     private String name;
     private String email;
     private Bitmap avatar;
-    private String password;
+    private String nickname;
+    private String description;
     public User(){
     }
-    public User(String uuid, String email, String name){
+    public User(String uuid, String email, String name, String nickName, String description){
         this.setEmail(email);
         this.setUuid(uuid);
         this.setName(name);
+        this.setNickname(nickName);
+        this.setDescription(description);
     }
 
-    protected User(Parcel in) {
-        uuid = in.readString();
-        name = in.readString();
-        email = in.readString();
-        avatar = in.readParcelable(Bitmap.class.getClassLoader());
-        password = in.readString();
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     @NonNull
     public String getUuid() { return uuid;}
     public void setUuid(@NonNull String uuid) {
         this.uuid = uuid;
+    }
+    public String getNickname() {
+        return nickname;
+    }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
     public String getName() {
         return name;
@@ -58,26 +48,10 @@ public class User implements Parcelable {
     }
     public void setAvatar(Bitmap avatar) { this.avatar = avatar;}
     public Bitmap getAvatar() { return avatar; }
-
-    public String getPassword() {
-        return password;
+    public String getDescription(){
+        return description;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(uuid);
-        parcel.writeString(name);
-        parcel.writeString(email);
-        parcel.writeParcelable(avatar, i);
-        parcel.writeString(password);
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

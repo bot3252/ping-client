@@ -35,8 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         context = this;
 
         downloadManager = new DownloadManager(this);
-        reCAPTCHA = new ReCAPTCHA(this);
+        downloadManager.getToken();
 
+        reCAPTCHA = new ReCAPTCHA(this);
         init();
     }
 
@@ -63,13 +64,22 @@ public class LoginActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         public void run() {
                             try {
-                                downloadManager.login(emailTextView.getText().toString(), passwordTextView.getText().toString());
+                                if(downloadManager.login(emailTextView.getText().toString(), passwordTextView.getText().toString())!=null){
+
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
+                                    startActivity(intent);
+                                }else {
+                                    LoginActivity.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(context, "неверный логин или пароль", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
                         }
                     }).start();
                 }

@@ -10,6 +10,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#2B2297</color>
 
+    <color name="greenDark">#008000</color>
+    <color name="greenLight">#90d195</color>
+
     <color name="backGround">#FFF1DB</color>
     <color name="backGroundInput">#A67D3D</color>
     <color name="cardHud">#FFE5BD</color>
