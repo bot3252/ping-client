@@ -43,7 +43,7 @@ public class DownloadManager {
         client = new OkHttpClient();
         dataManager = new DataManager(context);
         myUser=dataManager.getMyUser();
-        boolean isLocalServer = true;
+        boolean isLocalServer = false;
         if (isLocalServer){
             domain = "http://ping.com:8080";
         }   else {
@@ -155,13 +155,14 @@ public class DownloadManager {
 
         try (Response response = client.newCall(request).execute()) {
             String stringResponse = response.body().string();
-            JSONArray jsonArray = new JSONArray(stringResponse);
-            if (response.isSuccessful())
-                users=Parser.parseUsers(jsonArray);
-            for (int i = 0; i < jsonArray.length(); i++){
-                User user = users.get(i);
-                Bitmap avatar = downloadAvatar(user.getUuid());
-                user.setAvatar(avatar);
+            if (response.isSuccessful()&&!stringResponse.isEmpty()) {
+                JSONArray jsonArray = new JSONArray(stringResponse);
+                users = Parser.parseUsers(jsonArray);
+                for (int i = 0; i < jsonArray.length(); i++){
+                    User user = users.get(i);
+                    Bitmap avatar = downloadAvatar(user.getUuid());
+                    user.setAvatar(avatar);
+                }
             }
             return users;
         } catch (IOException e) {

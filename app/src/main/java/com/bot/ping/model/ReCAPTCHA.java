@@ -32,17 +32,17 @@ public class ReCAPTCHA implements GoogleApiClient.ConnectionCallbacks,
         mGoogleApiClient.connect();
     }
     public void startCaptcha(CheckBox checkBox){
-//        checkBox.setChecked(!checkBox.isChecked());
+        checkBox.setChecked(!checkBox.isChecked());
         SafetyNet.SafetyNetApi.verifyWithRecaptcha(mGoogleApiClient, SiteKey)
                 .setResultCallback(new ResultCallback<SafetyNetApi.RecaptchaTokenResult>() {
                     @Override
                     public void onResult(@NonNull SafetyNetApi.RecaptchaTokenResult result) {
                         String status = result.getStatus().zza().toString();
-//                        if(status.equals("SUCCESS")){
-//                            checkBox.setChecked(true);
-//                        }else {
-//                            checkBox.setChecked(false);
-//                        }
+                        if(status.equals("SUCCESS")){
+                            checkBox.setChecked(true);
+                        }else {
+                            checkBox.setChecked(false);
+                        }
                     }
                 });
     }

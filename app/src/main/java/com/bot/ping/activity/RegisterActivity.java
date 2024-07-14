@@ -78,7 +78,13 @@ public class RegisterActivity  extends AppCompatActivity {
                                     context.startActivity(intent);
                                     overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
                                 }else {
-                                    Toast.makeText(context, "неверный логин или пароль", Toast.LENGTH_SHORT).show();
+                                    RegisterActivity.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(context, "неверный логин или пароль", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
                                     nameTextView.setText("");
                                     emailTextView.setText("");
                                     passwordTextView.setText("");
