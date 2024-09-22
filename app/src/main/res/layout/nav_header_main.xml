@@ -18,7 +18,9 @@
         android:layout_height="90dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:background="@android:color/transparent"
-        app:srcCompat="@mipmap/avatar1_round" />
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/avatar1_drawable" />
 
     <TextView
         android:id="@+id/nav_name_text"

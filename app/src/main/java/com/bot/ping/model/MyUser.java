@@ -14,6 +14,8 @@ public class MyUser implements Parcelable {
     private String nickname;
     private String description;
     private String firebaseToken;
+    public static String TYPE_STATUS_ONLINE = "ONLINE";
+    public static String TYPE_STATUS_OFFLINE = "OFFLINE";
     public MyUser(){
     }
     public MyUser(String uuid, String email, String name, String nickName, String description){
@@ -102,5 +104,10 @@ public class MyUser implements Parcelable {
         parcel.writeString(description);
         parcel.writeParcelable(avatar, i);
         parcel.writeString(password);
+    }
+
+    public User myUserToUser(){
+        User user=new User(uuid, name, nickname, description);
+        return user;
     }
 }

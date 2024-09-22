@@ -38,11 +38,7 @@ public class ReCAPTCHA implements GoogleApiClient.ConnectionCallbacks,
                     @Override
                     public void onResult(@NonNull SafetyNetApi.RecaptchaTokenResult result) {
                         String status = result.getStatus().zza().toString();
-                        if(status.equals("SUCCESS")){
-                            checkBox.setChecked(true);
-                        }else {
-                            checkBox.setChecked(false);
-                        }
+                        checkBox.setChecked(status.equals("SUCCESS"));
                     }
                 });
     }

@@ -12,6 +12,7 @@
 
     <color name="greenDark">#008000</color>
     <color name="greenLight">#90d195</color>
+    <color name="grey">#5c5c5c</color>
 
     <color name="backGround">#FFF1DB</color>
     <color name="backGroundInput">#A67D3D</color>

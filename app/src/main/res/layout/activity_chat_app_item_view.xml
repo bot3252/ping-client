@@ -6,20 +6,32 @@
     android:layout_height="wrap_content"
     android:padding="1dp">
 
+    <TextView
+        android:id="@+id/textViewData"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="00:00:0000"/>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chat_left_msg_layout"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        app:layout_constraintWidth_max="250dp"
         android:layout_marginStart="15dp"
-        android:background="@drawable/edit_text">
+        android:background="@drawable/edit_text"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/chat_left_msg_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            app:layout_constraintWidth_max="200dp"
             android:layout_margin="10dp"
             android:text="@string/message"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,6 +55,7 @@
         android:id="@+id/chat_right_msg_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_gravity="right"
         android:layout_marginEnd="15dp"
         android:background="@drawable/edit_text"
@@ -51,6 +64,7 @@
         <TextView
             android:id="@+id/chat_right_msg_text_view"
             android:layout_width="wrap_content"
+            app:layout_constraintWidth_max="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"

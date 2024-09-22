@@ -12,11 +12,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bot.ping.R;
-import com.bot.ping.activity.ChatActivity;
+import com.bot.ping.activity.main.ChatActivity;
+import com.bot.ping.activity.main.MainActivity;
 import com.bot.ping.databinding.FragmentMessageMenuBinding;
 import com.bot.ping.model.User;
 import com.bot.ping.ui.adapter.ContactAdapter;
-import com.bot.ping.ui.RecyclerItemClickListener;
+import com.bot.ping.ui.listiner.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,8 @@ public class MessageMenuFragment extends Fragment {
     View root;
     public RecyclerView recyclerView;
     public ArrayList<User> allContacts;
+    public ContactAdapter adapter;
+    public Intent intent;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         this.setArguments(new Bundle());
@@ -37,18 +40,22 @@ public class MessageMenuFragment extends Fragment {
 
         arguments = getArguments();
         root = binding.getRoot();
-        recyclerView = root.findViewById(R.id.list);
+        recyclerView = root.findViewById(R.id.listContacts);
         recyclerView.addOnItemTouchListener(recyclerItemClickListener);
         if(allContacts!=null){
-            if(!allContacts.isEmpty()) {
+//            if(!allContacts.isEmpty()) {
                 setAdapter();
-            }
+//            }
         }
         return root;
     }
     RecyclerItemClickListener recyclerItemClickListener = new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
         @Override public void onItemClick(View view, int position) {
-            Intent intent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+            MainActivity mainActivity = (MainActivity) getActivity();
+            intent = new Intent(getActivity().getApplicationContext(), ChatActivity.class);
+            if (mainActivity != null) {
+                mainActivity.setIntent(intent);
+            }
             intent.putExtra("uuid",allContacts.get(position).getUuid());
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.anim_slide_right, R.anim.anim_slide_out_left);
@@ -59,7 +66,7 @@ public class MessageMenuFragment extends Fragment {
         }
     });
     public void setAdapter() {
-        ContactAdapter adapter = new ContactAdapter(getActivity(), allContacts);
+        adapter = new ContactAdapter(getActivity() ,allContacts);
         recyclerView.setAdapter(adapter);
     }
 

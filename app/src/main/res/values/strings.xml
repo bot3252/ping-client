@@ -17,7 +17,6 @@
     <string name="description">Описание:</string>
     <string name="about_me">о себе</string>
 
-
     <string name="account">Аккаунт</string>
     <string name="avatar">Аватар</string>
     <string name="choose_avatar">Выбери свой аватар</string>
@@ -30,6 +29,12 @@
     <string name="next">Далее</string>
     <string name="check">проверить</string>
     <string name="exit"><u>Выйти из аккаунта</u></string>
+    <string name="change_password">сменить пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="check_connect_server">Проверить соедение</string>
+    <string name="about_server">Информация о сервере:</string>
+    <string name="apply">Применить</string>
+
     <string name="search">поиск...\n</string>
     <string name="descriptionSetAvatar">Данный автар будет отображаться в вашем профеле\n</string>
     <string name="chat">чат</string>

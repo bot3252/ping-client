@@ -9,10 +9,10 @@
             android:id="@+id/nav_message_menu"
             android:icon="@drawable/ping_notification"
             android:title="@string/message" />
-        <item
-            android:id="@+id/nav_create_group"
-            android:icon="@drawable/insipid_group"
-            android:title="@string/create_group" />
+<!--        <item-->
+<!--            android:id="@+id/nav_create_group"-->
+<!--            android:icon="@drawable/insipid_group"-->
+<!--            android:title="@string/create_group" />-->
     </group>
     <item android:title="@string/account">
         <menu>
@@ -20,11 +20,13 @@
             <item
                 android:id="@+id/profile"
                 android:icon="@drawable/insipid_avatar"
+                android:onClick="set_my_profile_activity"
                 android:title="@string/profile" />
-            <item
-                android:id="@+id/nav_settings"
-                android:icon="@drawable/settings"
-                android:title="@string/settings" />
+<!--            <item-->
+<!--                android:id="@+id/nav_settings"-->
+<!--                android:onClick="set_settings_activity"-->
+<!--                android:icon="@drawable/settings"-->
+<!--                android:title="@string/settings" />-->
             <item
                 android:id="@+id/exit"
                 android:onClick="exit_account"
