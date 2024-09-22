@@ -1,0 +1,9 @@
+<Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:layout_gravity="top"
+    android:background="@color/backGroundInput"
+    android:theme="@style/ThemeOverlay.AppCompat.Light"
+    app:titleTextColor="@color/black" />
